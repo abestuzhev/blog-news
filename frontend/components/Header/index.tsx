@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Paper, Button, IconButton, Avatar } from '@material-ui/core';
 import {
@@ -11,22 +11,18 @@ import {
 } from '@material-ui/icons';
 
 import styles from './Header.module.scss';
-import { useAppSelector } from '../../redux/hooks';
-import { selectUserData } from '../../redux/slices/user';
+import AuthDialog from '../Dialog/AuthDialog';
 
 export const Header: React.FC = () => {
-  const userData = useAppSelector(selectUserData);
+  const userData = false;
   const [authVisible, setAuthVisible] = React.useState(false);
 
   const openAuthDialog = () => {
-    setAuthVisible(true);
-  };
-
-  const closeAuthDialog = () => {
-    setAuthVisible(false);
+    setAuthVisible(!authVisible);
   };
 
   return (
+    <>
     <Paper classes={{ root: styles.root }} elevation={0}>
       <div className="d-flex align-center">
         <IconButton>
@@ -74,8 +70,13 @@ export const Header: React.FC = () => {
             <UserIcon />
             Войти
           </div>
-        )}
+        )
+        
+        }
+        {console.log("userData", userData)}
       </div>
     </Paper>
+    <AuthDialog authVisible={authVisible} fn={openAuthDialog}/>
+    </>
   );
 };
